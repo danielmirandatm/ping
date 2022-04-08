@@ -13,6 +13,9 @@
 #include <memory>
 #include <vector>
 
+#define ICMP_MSG_SIZE 64
+#define ICMP_DATA_SIZE 56
+
 // Tipos de mensagens ICMP do padrao rfc792
 typedef enum icmp_type
 {
@@ -65,12 +68,66 @@ typedef enum icmp_code
 class Icmp
 {
 public:
-    Icmp(icmp_type type = ECHO_REQUEST, icmp_code code = DEFAULT);
+    /**
+     * @brief Construtor da classe Icmp
+     * 
+     * @param type tipo da mensagem ICMP que será montada
+     * @param code codigo da mensagem ICMP que sera montada
+     */
+    explicit Icmp(icmp_type type = ECHO_REQUEST, icmp_code code = DEFAULT);
+
+    /**
+     * @brief Encoda o cabeçalho ICMP ECHO de acordo com o rfc 792:
+     *   0                   1                   2                   3
+     *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     *  |     Type      |     Code      |          Checksum             |
+     *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     *  |     Data ...
+     *  +-+-+-+-+-
+     * 
+     * @return std::vector<unsigned char>
+     */
     std::vector<unsigned char> encode();
 
 private:
+    /**
+     * @brief tipo da mensagem ICMP
+     */
     icmp_type_t type;
+
+    /**
+     * @brief codigo da mensagem ICMP
+     */
     icmp_code_t code;
+
+    /**
+     * @brief identificador da mensagem ICMP
+     */
+    unsigned short identifier{};
+
+    /**
+     * @brief numero sequencial da mensagem ICMP
+     */
+    unsigned short seq{};
+
+    /**
+     * @brief checksum da mensagem
+     */
+    unsigned int checksum;
+
+    /**
+     * @brief campo de dados da mensagem
+     */
+    std::vector<unsigned char> data;
+
+    /**
+     * @brief Calcula o checksum da mensagem ICMP de acordo com o rfc 792.
+     * O checksum é o complemento de 16 bits da soma dos bytes da mensagem,
+     * onde inicialmente o valor de checksum é zero e é substituido mais 
+     * posteriormente.
+     */
+    void checksum_update();
 };
 
 #endif //__ICMP_HPP__

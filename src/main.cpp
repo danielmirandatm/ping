@@ -41,11 +41,11 @@ int main(int argc, char *argv[])
         // Calcula o a diferenca entre os tempos de envio e recebimento dos pacotes
         std::chrono::duration<double> diff_time = end_time - start_time;
 
-        std::cout << "Mensagem enviada com sucesso, resposta recebida em: " << diff_time.count() << " segundos.";
+        std::cout << "Mensagem enviada com sucesso, resposta recebida em: " << diff_time.count() << " segundos." << std::endl;
     }
     catch (const std::runtime_error &error)
     {
-        std::cout << "Exception: " << error.what();
+        std::cout << "Exception: " << error.what() << std::endl;
         return EXIT_FAILURE;
     }
 

@@ -1,5 +1,5 @@
 /**
- * @file icmp.hpp
+ * @file socket.hpp
  * @author Daniel Miranda (danielmirandatm@gmail.com)
  * @brief Header da classe socket
  * @version 0.1
@@ -17,6 +17,7 @@
 #define TTL 255
 #define RCV_TIMEOUT 1
 #define MAX_SIZE_MSG_TO_RCV 76
+
 
 class Socket
 {
@@ -38,11 +39,9 @@ class Socket
         void snd_msg(std::vector<unsigned char> msg_to_snd);
 
         /**
-         * @brief Recebe uma mensagem do servidor de destino
-         * 
-         * @param msg_to_rcv mensagem a ser recebida
+         * @brief retorna a mensagem recebida do servidor de destino
          */
-        void rcv_msg(std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> *msg_to_rcv);
+        std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> rcv_msg();
 
     private:
         /**

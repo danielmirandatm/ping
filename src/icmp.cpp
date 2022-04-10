@@ -7,7 +7,6 @@
  */
 
 #include <icmp.hpp>
-#include <iostream>
 
 
 /**
@@ -22,7 +21,6 @@ Icmp::Icmp(icmp_type type, icmp_code code) : type(type),
 {
     this->data = std::vector<unsigned char>(2, 0);
 }
-
 
 /**
  * @brief Encoda o cabeçalho ICMP ECHO de acordo com o rfc 792:
@@ -55,7 +53,6 @@ std::vector<unsigned char> Icmp::encode()
     
     return icmp_header;
 }
-
 
 /**
  * @brief Calcula o checksum da mensagem ICMP de acordo com o rfc 792.

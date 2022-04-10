@@ -13,8 +13,8 @@
 #include <memory>
 #include <vector>
 
-#define ICMP_MSG_SIZE 64
-#define ICMP_DATA_SIZE 56
+
+#define ICMP_PORT 0
 
 // Tipos de mensagens ICMP do padrao rfc792
 typedef enum icmp_type

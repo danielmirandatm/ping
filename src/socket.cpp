@@ -1,5 +1,5 @@
 /**
- * @file icmp.hpp
+ * @file socket.cpp
  * @author Daniel Miranda (danielmirandatm@gmail.com)
  * @brief Implementacao dos metodos da classe Socket
  * @version 0.1
@@ -74,20 +74,23 @@ void Socket::snd_msg(std::vector<unsigned char> msg_to_snd)
 }
 
 /**
- * @brief Recebe uma mensagem do servidor de destino
+ * @brief Retorna a mensagem recebida do servidor de destino
  * 
- * @param msg_to_rcv mensagem a ser recebida
+ * @return std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> 
  */
-void Socket::rcv_msg(std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> *msg_to_rcv)
+std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> Socket::rcv_msg()
 {
-    int msg_rcvd;
+    int flag_rcvd;
+    std::array<unsigned char, MAX_SIZE_MSG_TO_RCV> msg_to_rcv;
 
-    msg_rcvd = recvfrom(this->fd, msg_to_rcv->data(), msg_to_rcv->size(), 0,
+    flag_rcvd = recvfrom(this->fd, msg_to_rcv.data(), msg_to_rcv.size(), 0,
                        (struct sockaddr *)&this->socket_addr, &this->socket_addr_size);
     
-    if (msg_rcvd < 0)
+    if (flag_rcvd < 0)
     {
         throw std::runtime_error("Erro ao receber mensagem via socket");
     }
+
+    return msg_to_rcv;
 }
 
